@@ -1,0 +1,3 @@
+Smith,John,jsmith,jsmith@email.com,Computer Science,Graduate
+Brown,Jane,jbrown,jbrown@email.com,Mathematics,Undergraduate
+Jones,Bob,bjones,bjones@email.com,Physics,Graduate
