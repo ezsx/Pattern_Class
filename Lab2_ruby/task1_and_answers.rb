@@ -22,8 +22,7 @@ class Student
   end
 
   def validate
-    validate_git_presence && validate_contacts_
-    presence
+    validate_git_presence && validate_contacts_presence
   end
 
   def validate_git_presence
@@ -61,12 +60,16 @@ class Student
   end
 end
 
-require_relative 'student'
+# require_relative 'student'
 
 student1 = Student.new(surname: 'Smith', first_name: 'John', git: 'https://github.com/johndoe')
 student2 = Student.new(surname: 'Doe', first_name: 'Jane', phone: '1234567890', mail: 'jane.doe@example.com')
+student3 = Student.new(surname: 'Doe', first_name: 'Jane', phone: '1234567890', mail: 'some.do@mail.com', git: 'https://github.com/johndoe')
 
-students = [student1, student2]
+# create some students with all data
+
+
+students = [student1, student2, student3]
 
 students.each do |student|
   if student.validate

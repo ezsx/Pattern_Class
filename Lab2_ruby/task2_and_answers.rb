@@ -1,45 +1,28 @@
 # Class representing a student
-class Student
-  attr_accessor :last_name, :first_name, :git_username, :contact
-
-  def initialize(last_name, first_name, git_username, contact)
-    @last_name = last_name
-    @first_name = first_name
-    @git_username = git_username
-    @contact = contact
-  end
-
-  # Constructor that accepts a string as input
-  def self.from_string(string)
-    last_name, first_name, git_username, contact = string.split(',')
-    new(last_name, first_name, git_username, contact)
-  end
-
-  # Returns brief information about the student
-  def get_info
-    "#{last_name} #{first_name[0]}. (#{git_username}, #{contact})"
-  end
-end
+# import class Student from task1.rb
+require_relative 'task1_and_answers'
 
 # Class representing a short version of a student
 class StudentShort
-  attr_reader :id, :last_name, :first_name, :git_username, :contact
+  attr_reader :id, :first_name, :patronymic, :git, :telegram
 
   def initialize(student)
     @id = student.object_id
-    @last_name = student.last_name
     @first_name = student.first_name
-    @git_username = student.git_username
-    @contact = student.contact
+    @patronymic = student.patronymic
+    @git = student.git
+    @telegram = student.telegram
   end
 
   def self.from_string(id, string)
-    last_name, first_name, git_username, contact = string.split(',')
-    new(Student.new(last_name, first_name, git_username, contact))
+    first_name, patronymic, git, telegram = string.split(',')
+    # new(Student.new(first_name, first_name, git, telegram))
+    new(Student.new(first_name: first_name, patronymic: patronymic, git: git, telegram: telegram))
+
   end
 
   def get_info
-    "#{id}. #{last_name} #{first_name[0]}. (#{git_username}, #{contact})"
+    "#{id}. #{first_name} #{patronymic}. (#{git}, #{telegram})"
   end
 end
 
@@ -49,8 +32,9 @@ def read_from_txt(file_path)
   begin
     File.open(file_path, "r") do |file|
       file.each_line do |line|
-        last_name, first_name, git, contact = line.strip.split(",")
-        students << Student.new(last_name, first_name, git, contact)
+        first_name, patronymic, git, telegram = line.strip.split(",")
+        # students << Student.new(first_name, first_name, git, telegram)
+        students << Student.new(first_name: first_name, patronymic:patronymic, git: git, telegram: telegram)
       end
     end
     students
@@ -60,13 +44,12 @@ def read_from_txt(file_path)
   end
 end
 
-
 # Method to write students to a text file
 def write_to_txt(file_path, students)
   begin
     File.open(file_path, 'w') do |file|
       students.each do |student|
-        file.puts("#{student.last_name},#{student.first_name},#{student.git_username},#{student.contact}")
+        file.puts("#{student.first_name},#{student.patronymic},#{student.git},#{student.telegram}")
       end
     end
   rescue StandardError => e
@@ -86,6 +69,19 @@ end
 write_to_txt('students_short.txt', students_short)
 
 # Вопросы:
+#
+# a.
+# Опишите структуру классов языка Ruby, как в нее вписывается написанный Вами класс?
+# b.
+# Опишите принцип наследования, переопределение методов и
+# способы вызова переопределенного метода.
+# c.
+# Опишите принципы работы конструкторов для наследуемых классов.
+# d.
+# Какие методы объекта обязательно есть у любого написанного
+# Вами класса, опишите, что они делают.
+
+# Ответы на вопросы:
 
 #   а. Структура классов языка Ruby основана на парадигме объектно-ориентированного программирования,
 #   где классы определяют поведение и свойства объектов. Классы могут наследовать от других классов,
