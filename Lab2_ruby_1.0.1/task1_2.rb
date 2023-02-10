@@ -27,6 +27,49 @@ class Student
     validate_guide
     validate_contact
   end
+
+  def get_info
+    info = "#{surname} #{first_name[0]}.#{patronymic[0]}."
+    info += " Git: #{git}" if git
+    if phone
+      info += " Phone: #{phone}"
+    elsif telegram
+      info += " Telegram: #{telegram}"
+    elsif mail
+      info += " Mail: #{mail}"
+    end
+    info
+  end
+
+  def get_id
+    @id
+  end
+
+
+  def get_surname
+    @surname
+  end
+
+  def get_initials
+    "#{@first_name[0]}.#{@patronymic[0]}."
+  end
+
+  def get_git
+    @git
+  end
+
+  def get_communication
+    info =""
+    if @phone
+      info += "Phone: #{@phone}"
+    elsif @telegram
+      info +="Telegram: #{@telegram}"
+    elsif @mail
+      info +="Mail: #{@mail}"
+    end
+    info
+  end
+
   def to_s
     "ID: #{id}, Surname: #{surname}, First name: #{first_name}, Patronymic: #{patronymic}, Phone: #{phone}, Telegram: #{telegram}, Mail: #{mail}, Git: #{git}"
   end
@@ -84,5 +127,39 @@ class Student
 
   def self.valid_git?(git)
     git.is_a?(String) && git.match(/\Ahttps?:\/\/github\.com\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\z/)
+  end
+end
+
+class Student_short < Student
+  attr_reader :id, :surname, :initials, :git, :contact
+
+  def initialize(id: nil, string: nil, student: Student)
+
+    if student
+      @id = student.id
+      @surname = student.get_surname
+      @initials = student.get_initials
+      @git = student.get_git
+      @contact = student.get_communication
+    elsif string
+      info = get_info(string)
+      @id = id
+      @surname = info[:surname]
+      @initials = info[:initials]
+      @git = info[:git]
+      @contact = info[:contact]
+    end
+  end
+
+  private
+
+  def get_info(string)
+    match = string.match(/\A(?<surname>\w+)\s+(?<initials>\w+\.\w+)\s+(?<git>\w+)\s+(?<contact>\w+@\w+\.\w+)\z/)
+    {
+      surname: match[:surname],
+      initials: match[:initials],
+      git: match[:git],
+      contact: match[:contact]
+    }
   end
 end
