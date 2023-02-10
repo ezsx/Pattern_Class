@@ -3,7 +3,7 @@
 require_relative 'task1_and_answers'
 
 # Class representing a short version of a student
-class StudentShort
+class Student_short
   attr_reader :id, :first_name, :patronymic, :git, :telegram
 
   def initialize(student)
@@ -60,7 +60,7 @@ end
 # Testing the code
 students = read_from_txt('students.txt')
 
-students_short = students.map.with_index { |student, i| StudentShort.new(student) }
+students_short = students.map.with_index { |student, i| Student_short.new(student) }
 
 students_short.each do |student|
   puts student.get_info
