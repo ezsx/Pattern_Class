@@ -1,7 +1,7 @@
 class Student
   attr_accessor :id, :surname, :first_name, :patronymic, :phone, :telegram, :mail, :git
 
-  def initialize(options = {})
+  def initialize(options = {surname: '', first_name: '', patronymic: ''})
     @id = options[:id]
     @surname = options[:surname]
     @first_name = options[:first_name]
@@ -13,6 +13,13 @@ class Student
     validate_fields
   end
 
+  def set_contacts(params)
+    @phone = params[:phone] if self.class.valid_phone?(params[:phone])
+    @telegram = params[:telegram] if self.class.valid_telegram?(params[:telegram])
+    @mail = params[:mail] if self.class.valid_mail?(params[:mail])
+    @git = params[:git] if self.class.valid_git?(params[:git])
+  end
+
   def validate_fields
     validate_surname
     validate_first_name
@@ -20,6 +27,16 @@ class Student
     validate_guide
     validate_contact
   end
+  def to_s
+    "ID: #{id}, Surname: #{surname}, First name: #{first_name}, Patronymic: #{patronymic}, Phone: #{phone}, Telegram: #{telegram}, Mail: #{mail}, Git: #{git}"
+  end
+
+  def self.from_string(string)
+    id, surname, first_name, patronymic, phone, telegram, mail, git = string.split(',')
+    params = { id: id, surname: surname, first_name: first_name, patronymic: patronymic, phone: phone, telegram: telegram, mail: mail, git: git }
+    new(params)
+  end
+
 
   def validate_surname
     raise ArgumentError, 'Surname is required' unless self.class.valid_surname?(surname)
@@ -62,10 +79,10 @@ class Student
   end
 
   def self.valid_mail?(mail)
-    mail.is_a?(String) && mail.match(/\A[a-zA-Z0--9]+@[a-z]+.[a-z]+\z/)
+    mail.is_a?(String) && mail.match(/\A[a-zA-Z0-9]+@[a-z]+.[a-z]+\z/)
   end
 
   def self.valid_git?(git)
-    git.is_a?(String) && git.match(/\Ahttps?://github.com/[a-zA-Z0-9]+/[a-zA-Z0-9]+\z/)
+    git.is_a?(String) && git.match(/\Ahttps?:\/\/github\.com\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\z/)
   end
 end
