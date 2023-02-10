@@ -143,6 +143,18 @@ class Student
       raise "File not found at the given address #{file_path}. Exception: #{exception.message}"
     end
   end
+  def self.write_to_txt(file_path, students)
+    begin
+      File.open(file_path, 'w') do |file|
+        students.each do |student|
+          file.puts "#{student.id},#{student.surname},#{student.first_name},#{student.patronymic},#{student.phone},#{student.telegram},#{student.mail},#{student.git}"
+        end
+      end
+    rescue => exception
+      raise "File could not be written at the given address #{file_path}. Exception: #{exception.message}"
+    end
+  end
+
 end
 
 class Student_short < Student
@@ -177,4 +189,9 @@ class Student_short < Student
       contact: match[:contact]
     }
   end
+  def to_s
+    "ID: #{@id}, Surname: #{@surname}, Initials: #{@initials}, Git: #{@git}, Contact: #{@contact}"
+  end
 end
+
+

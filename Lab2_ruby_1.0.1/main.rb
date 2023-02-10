@@ -15,22 +15,19 @@ puts student_short
 # test read from txt file
 
 students1 = Student.read_from_txt('students.txt')
-students1.each do |student|
-  puts student.to_s
+students1.each do |student_j|
+  puts student_j.to_s
+end
+# convert students1 to students1_short
+students1_short = []
+students1.each do |student_j|
+  students1_short << Student_short.new(student: student_j)
+end
+puts "students1_short"
+# write all students from students1_short
+for i in 0..students1_short.length-1
+  puts students1_short[i]
 end
 
 
-
-# def display_student_info(student)
-#   puts "ID: #{student.id}"
-#   puts "Surname: #{student.surname}"
-#   puts "First name: #{student.first_name}"
-#   puts "Patronymic: #{student.patronymic}"
-#   puts "Phone: #{student.phone}" if student.phone
-#   puts "Telegram: #{student.telegram}" if student.telegram
-#   puts "Mail: #{student.mail}" if student.mail
-#   puts "Git: #{student.git}" if student.git
-#   puts " "
-# end
-#
-# display_student_info(student1)
+Student.write_to_txt('students_out.txt', students1)
