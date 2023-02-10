@@ -1,7 +1,7 @@
 class Student
   attr_accessor :id, :surname, :first_name, :patronymic, :phone, :telegram, :mail, :git
 
-  def initialize(options = {surname: '', first_name: '', patronymic: ''})
+  def initialize(options = { surname: '', first_name: '', patronymic: '' })
     @id = options[:id]
     @surname = options[:surname]
     @first_name = options[:first_name]
@@ -45,7 +45,6 @@ class Student
     @id
   end
 
-
   def get_surname
     @surname
   end
@@ -59,13 +58,13 @@ class Student
   end
 
   def get_communication
-    info =""
+    info = ""
     if @phone
       info += "Phone: #{@phone}"
     elsif @telegram
-      info +="Telegram: #{@telegram}"
+      info += "Telegram: #{@telegram}"
     elsif @mail
-      info +="Mail: #{@mail}"
+      info += "Mail: #{@mail}"
     end
     info
   end
@@ -79,7 +78,6 @@ class Student
     params = { id: id, surname: surname, first_name: first_name, patronymic: patronymic, phone: phone, telegram: telegram, mail: mail, git: git }
     new(params)
   end
-
 
   def validate_surname
     raise ArgumentError, 'Surname is required' unless self.class.valid_surname?(surname)
@@ -127,6 +125,23 @@ class Student
 
   def self.valid_git?(git)
     git.is_a?(String) && git.match(/\Ahttps?:\/\/github\.com\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\z/)
+  end
+
+  def self.read_from_txt(file_path)
+    students = []
+    begin
+      File.open(file_path, 'r') do |file|
+        file.each_line do |line|
+          id, surname, first_name, patronymic, phone, telegram, mail, git = line.split(',')
+          params = { id: id, surname: surname, first_name: first_name, patronymic: patronymic, phone: phone, telegram: telegram, mail: mail, git: git }
+          students << Student.new(params = params)
+
+        end
+      end
+      students
+    rescue => exception
+      raise "File not found at the given address #{file_path}. Exception: #{exception.message}"
+    end
   end
 end
 

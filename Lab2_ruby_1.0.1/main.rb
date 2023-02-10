@@ -12,7 +12,15 @@ puts student_back_string
 student_short = Student_short.new(student: student)
 puts student_short
 
-#
+# test read from txt file
+
+students1 = Student.read_from_txt('students.txt')
+students1.each do |student|
+  puts student.to_s
+end
+
+
+
 # def display_student_info(student)
 #   puts "ID: #{student.id}"
 #   puts "Surname: #{student.surname}"
