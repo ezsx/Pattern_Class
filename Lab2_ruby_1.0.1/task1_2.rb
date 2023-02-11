@@ -49,6 +49,14 @@ class Student
     @surname
   end
 
+  def get_names
+    names = "no name"
+    names += "#{@surname} " if @surname
+    names += "#{@first_name} " if @first_name
+    names += "#{@patronymic}" if @patronymic
+    names
+  end
+
   def get_initials
     "#{@first_name[0]}.#{@patronymic[0]}."
   end
@@ -168,6 +176,9 @@ class Student_short < Student
       @initials = student.get_initials
       @git = student.get_git
       @contact = student.get_communication
+      # hash data
+
+
     elsif string
       info = get_info(string)
       @id = id
@@ -179,6 +190,22 @@ class Student_short < Student
   end
 
   private
+
+  def to_h
+    {
+      id: @id,
+      surname: @surname,
+      initials: @initials,
+      git: @git,
+      contact: @contact
+    }
+  end
+
+  public def get_names
+    name = "no name"
+    name = "#{@surname} #{@initials}" if @surname && @initials
+    name
+  end
 
   def get_info(string)
     match = string.match(/\A(?<surname>\w+)\s+(?<initials>\w+\.\w+)\s+(?<git>\w+)\s+(?<contact>\w+@\w+\.\w+)\z/)
