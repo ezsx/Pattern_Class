@@ -320,4 +320,64 @@ class Students_list_JSON
   end
 end
 
+require 'yaml'
+
+class Students_list_YAML < Data_list
+  def initialize(file_path = "students_list.yml")
+    @file_path = file_path
+    @students = []
+    if File.exists?(file_path)
+      @students = YAML.load_file(file_path)
+    end
+  end
+
+  def add(student)
+    new_id = (@students.map { |s| s.id.to_i }.max || 0) + 1
+    student.id = new_id.to_s
+    @students << student
+    write_to_file
+  end
+
+  def delete(student_id)
+    student = get(student_id)
+    @students.delete(student)
+    write_to_file
+  end
+
+  def replace(student)
+    delete(student.id)
+    add(student)
+  end
+
+  def sort_by_full_name
+    @students.sort_by! { |s| [s.surname, s.first_name, s.patronymic] }
+    write_to_file
+  end
+
+  def get(student_id)
+    @students.find { |s| s.id == student_id }
+  end
+
+  # in progress...
+  #
+  # def get_k_n_student_short_list(k, n, data_list = nil, student_full=nil)
+  #   data_list ||= Data_list.new
+  #   student_shorts = @students[k, n].map { |s| Student_short.new(id: s.id, surname: "#{s.surname} #{s.first_name[0]}.") }
+  #   data_list.students = student_shorts
+  #   data_list
+  # end
+
+  def get_student_short_count
+    @students.count
+  end
+
+  private
+
+  def write_to_file
+    File.open(@file_path, 'w') do |file|
+      file.write(@students.to_yaml)
+    end
+  end
+end
+
 
