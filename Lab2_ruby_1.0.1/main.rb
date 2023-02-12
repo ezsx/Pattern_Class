@@ -1,7 +1,7 @@
 require_relative 'task1_2'
 require_relative 'task3'
 #
-student1 = Student.new(surname: 'Smith', first_name: 'John', patronymic: 'sda', git: 'https://github.com/ezsx', telegram: 'ezsx', mail: 'scdcor@gmail.com', phone: '380501234567')
+student1 = Student.new(id:'1' ,surname: 'Smith', first_name: 'John', patronymic: 'sda', git: 'https://github.com/ezsx', telegram: 'ezsx', mail: 'scdcor@gmail.com', phone: '380501234567')
 puts student1
 #
 # student_string = "1,Smith,John,Alex, +7 (999) 123-45-67, @johnsmith, john.smith@example.com, https://github.com/johnsmith"

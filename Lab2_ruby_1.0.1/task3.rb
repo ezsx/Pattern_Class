@@ -124,7 +124,7 @@ class DataListStudentShort
   attr_reader :column_names
   attr_accessor :data
 
-  def initialize(column_names: nil , data: [])
+  def initialize(column_names: nil, data: [])
     @column_names = column_names
     @data = data
     @selected = []
@@ -134,9 +134,8 @@ class DataListStudentShort
     @data = new_data
   end
 
-
-
   public
+
   def get_column_count
     # pin
     @data[0].instance_variables.count
@@ -154,8 +153,6 @@ class DataListStudentShort
   def select(number)
     @selected << @data[number].id
   end
-
-
 
   def get_selected
     @selected
@@ -182,4 +179,69 @@ def parse_data(data_list)
   students_list = data_list.map { |elements| parse_student_short(elements) }
   create_student_short_data_list(data_list.column_names, students_list)
 end
+
+class Students_list_txt < Data_list
+  attr_accessor :file_path
+
+  def initialize(file_path, data_list = nil)
+    @file_path = file_path
+    data = []
+    if File.exist?(@file_path)
+      File.open(@file_path, "r") do |f|
+        f.each_line do |line|
+          student_data = line.strip.split(',')
+          data << Student.new(id: student_data[0], surname: student_data[1], first_name: student_data[2], patronymic: student_data[3], git: student_data[4], telegram: student_data[5], mail: student_data[6], phone: student_data[7])
+        end
+      end
+    end
+    # , data_list.selected
+    super(data)
+  end
+
+  def write_to_file
+    File.open(@file_path, "w") do |f|
+      @data.each do |student|
+        f.puts "#{student.id},#{student.surname},#{student.first_name},#{student.patronymic},#{student.phone},#{student.telegram},#{student.email},#{student.git}"
+      end
+    end
+  end
+
+  def get_student_by_id(id)
+    @data.find { |student| student.id == id }
+  end
+
+  def get_k_n_student_short_list(k, n, data_list = nil, student_full=nil)
+    data = @data[k..(k + n - 1)].map { |student| Student_short.new(student: student_full) }
+    if data_list.nil?
+      Data_list_student_short.new(data)
+    else
+      data_list.data = data
+      data_list
+    end
+  end
+
+  def sort_by_surname_initials
+    @data.sort_by! { |student| [student.surname, student.first_name, student.patronymic] }
+  end
+
+  def add_student(student)
+    max_id = @data.map { |s| s.id.to_i }.max
+    student.id = (max_id + 1).to_s
+    @data << student
+  end
+
+  def replace_student(id, student)
+    student.id = id
+    @data.map! { |s| s.id == id ? student : s }
+  end
+
+  def delete_student(id)
+    @data.delete_if { |student| student.id == id }
+  end
+
+  def get_student_short_count
+    @data.length
+  end
+end
+
 
