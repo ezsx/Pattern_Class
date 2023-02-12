@@ -171,7 +171,7 @@ class Student_short < Student
   def initialize(id: nil, string: nil, student: Student)
 
     if student
-      @id = student.id
+      @id = student.get_id
       @surname = student.get_surname
       @initials = student.get_initials
       @git = student.get_git
@@ -181,7 +181,7 @@ class Student_short < Student
 
     elsif string
       info = get_info(string)
-      @id = id
+      @id = id[:id]
       @surname = info[:surname]
       @initials = info[:initials]
       @git = info[:git]
@@ -208,8 +208,11 @@ class Student_short < Student
   end
 
   def get_info(string)
-    match = string.match(/\A(?<surname>\w+)\s+(?<initials>\w+\.\w+)\s+(?<git>\w+)\s+(?<contact>\w+@\w+\.\w+)\z/)
+    # match = string.match(/\A(?<surname>\w+)\s+(?<initials>\w+\.\w+)\s+(?<git>\w+)\s+(?<contact>\w+@\w+\.\w+)\z/)
+    # add id to match
+    match = string.match(/\A(?<id>\d+)\s+(?<surname>\w+)\s+(?<initials>\w+\.\w+)\s+(?<git>\w+)\s+(?<contact>\w+@\w+\.\w+)\z/)
     {
+      id: match[:id],
       surname: match[:surname],
       initials: match[:initials],
       git: match[:git],

@@ -83,11 +83,14 @@ class DataListStudentShort < DataList
   public
 
   def get_data
-    DataTable.new(
-          elements: elements.map { |student_short| parse_student_short(student_short) }
-        )
+    @data.map { |student_short| parse_student_short(student_short) }
   end
-
+  def get_column_count
+    @data[0].instance_variables.count
+  end
+  def get_row_count
+    @data.count
+  end
   def get_names
     %w[id surname initials git contact]
   end
