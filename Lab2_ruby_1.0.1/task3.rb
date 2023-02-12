@@ -245,3 +245,79 @@ class Students_list_txt < Data_list
 end
 
 
+require 'json'
+
+class Students_list_JSON
+  def initialize(file_path)
+    @file_path = file_path
+    @students = []
+
+    if File.exist?(file_path)
+      read_from_file
+    else
+      write_to_file
+    end
+  end
+
+  def read_from_file
+    file = File.read(@file_path)
+    @students = JSON.parse(file)
+  end
+
+  def write_to_file
+    File.open(@file_path, 'w') do |f|
+      f.write(@students.to_json)
+    end
+  end
+
+  def add_student(student)
+    student_id = @students.empty? ? 1 : @students.last[:id] + 1
+    @students << { id: student_id, student: student }
+    write_to_file
+  end
+
+  def replace_student(student_id, student)
+    student_index = @students.index { |s| s[:id] == student_id }
+    @students[student_index][:student] = student if student_index
+    write_to_file
+  end
+
+  def delete_student(student_id)
+    @students.delete_if { |s| s[:id] == student_id }
+    write_to_file
+  end
+
+  def get_student(student_id)
+    student = @students.find { |s| s[:id] == student_id }
+    student[:student] if student
+  end
+
+  def get_k_n_student_short_list(k, n, data_list = nil)
+    data = @students[k...k+n].map { |s| s[:student] }
+    if data_list
+      data_list.data = data
+      data_list
+    else
+      Data_list.new(data)
+    end
+  end
+
+  def sort_by_surname_initials
+    @students.sort! do |a, b|
+      student_a = a[:student]
+      student_b = b[:student]
+      if student_a.surname == student_b.surname
+        student_a.first_name <=> student_b.first_name
+      else
+        student_a.surname <=> student_b.surname
+      end
+    end
+    write_to_file
+  end
+
+  def get_student_short_count
+    @students.count
+  end
+end
+
+
