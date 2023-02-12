@@ -57,7 +57,7 @@ students = [
 ]
 
 # Create a DataListStudentShort object from the created entities
-students_list = DataListStudentShort.new(students)
+students_list = DataListStudentShort.new(column_names: %w[id surname initials git contact], data: students)
 
 # Get the number of columns in the table
 puts "Number of columns in the table: #{students_list.get_column_count}"
@@ -69,7 +69,7 @@ puts "Number of rows in the table: #{students_list.get_row_count}"
 puts "Attribute names: #{students_list.get_names}"
 
 # Get an element by number
-puts "Selected element: #{students_list.select(1)}"
+puts "Selected element: #{students_list.select(2)}"
 
 # Get an array of ids of selected elements
 puts "Selected elements ids: #{students_list.get_selected}"
