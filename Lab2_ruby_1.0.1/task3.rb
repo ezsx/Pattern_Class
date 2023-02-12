@@ -3,8 +3,8 @@ class DataTable
     @data = data
   end
 
-  def data
-    @data
+  def [](row, col)
+    @data[row][col]
   end
 
   def row_count
@@ -14,7 +14,4 @@ class DataTable
   def column_count
     @data[0].size
   end
-
-  private
-  attr_reader :data
 end
