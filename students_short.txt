@@ -1,3 +1,0 @@
-Smith,John,jsmith,jsmith@email.com
-Brown,Jane,jbrown,jbrown@email.com
-Jones,Bob,bjones,bjones@email.com

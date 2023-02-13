@@ -18,7 +18,7 @@ class DataTable
   end
 end
 
-class DataList
+class Data_list
   attr_reader :selected
 
   def initialize(data)
