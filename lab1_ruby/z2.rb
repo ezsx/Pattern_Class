@@ -7,6 +7,25 @@ def gcd(a, b)
   a
 end
 
+def phi(n)
+  result = n
+  i = 2
+  while i * i <= n
+    if n % i == 0
+      while n % i == 0
+        n /= i
+      end
+      result -= result / i
+    end
+    i += 1
+  end
+  if n > 1
+    result -= result / n
+  end
+  return result
+end
+
+
 # Найти сумму цифр числа, делящихся на 3
 
 def sum_div_3(n)
@@ -36,15 +55,43 @@ def max_div(n)
   end
   div
 end
+def divisors(n)
+  m = 1
+  m *= 2 while m * 2 <= n
+
+  primes = []
+  2.upto(m) do |i|
+    is_prime = true
+    2.upto(Math.sqrt(i)) do |j|
+      if i % j == 0
+        is_prime = false
+        break
+      end
+    end
+    primes << i if is_prime
+  end
+
+  digits = n.to_s.size
+
+  divisors = []
+  1.upto(n) do |d|
+    next if n % d != 0 # d не является делителем n
+    next if d.gcd(m) != 1 # d не взаимно прост с m
+    next if d.to_s.size > digits # количество цифр в d больше, чем в n
+    divisors << d
+  end
+
+  return divisors
+end
 
 # вызвать все функции
 
 def main
   puts "Введите число: "
   n = gets.chomp.to_i
-  puts "Количество чисел, взаимно простых с #{n}: #{gcd(n, n)}"
+  puts "Количество чисел, взаимно простых с #{n}: #{phi(n)}"
   puts "Сумма цифр числа, делящихся на 3: #{sum_div_3(n)}"
-  puts "Максимальный делитель числа: #{max_div(n)}"
+  puts "Максимальный делитель числа взаимно простыми с данным: #{divisors(n)}"
 end
 
 main
