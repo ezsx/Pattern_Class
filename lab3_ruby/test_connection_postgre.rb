@@ -1,7 +1,8 @@
 require 'pg'
+require_relative '../db_config'
 
 # Connect to the PostgreSQL database
-conn = PG.connect(dbname: 'postgres', user: 'postgres', password: 'ezsx', host: 'localhost', port: 5432)
+conn = Database.conn
 
 # Create a table named "users" with two columns: "id" and "name"
 conn.exec("CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR)")

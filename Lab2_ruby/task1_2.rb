@@ -1,6 +1,7 @@
 class Student
   attr_accessor :id, :surname, :first_name, :patronymic, :phone, :telegram, :mail, :git, :initials, :contact
 
+  # TODO: its hashed but we cant see parameters while init it
   def initialize(options = { surname: '', first_name: '', patronymic: '' })
     @id = options[:id]
     @surname = options[:surname]
@@ -23,6 +24,7 @@ class Student
   end
 
   def validate_fields
+    # may be need later
     # validate_surname
     # validate_first_name
     # validate_patronymic
@@ -60,7 +62,7 @@ class Student
   end
 
   def get_initials
-    "#{@first_name[0]}.#{@patronymic[0]}."
+    "#{@first_name[0]}.#{@patronymic[0]}." if @first_name and @patronymic
   end
 
   def get_git
@@ -88,6 +90,9 @@ class Student
     params = { id: id, surname: surname, first_name: first_name, patronymic: patronymic, phone: phone, telegram: telegram, mail: mail, git: git }
     new(params)
   end
+
+  # just for now i think its extra parameters, if we need, we turn it on in future
+  #
   #
   # def validate_surname
   #   raise ArgumentError, 'Surname is required' unless self.class.valid_surname?(surname)
