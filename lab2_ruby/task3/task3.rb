@@ -1,4 +1,4 @@
-require_relative 'task1_2'
+require_relative '../task4/2/Student_and_Student_short'
 
 class DataTable
   def initialize(data)

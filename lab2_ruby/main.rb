@@ -1,6 +1,6 @@
-require_relative 'task1_2'
+require_relative 'task4/2/Student_and_Student_short'
 # require_relative 'task3'
-require_relative 'task4'
+require_relative 'task4/Txt_Json_Yaml'
 
 students = [
   Student.new(id: '1', surname: 'Surn', first_name: 'Firstn', patronymic: 'Sufu', phone:'79996340632', telegram: 'ezsx', mail:'scdcor@gmail.com', git: 'https://github.com/ezsx'),
