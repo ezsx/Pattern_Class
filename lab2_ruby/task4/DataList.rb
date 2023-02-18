@@ -2,6 +2,7 @@
 class DataList
   attr_accessor :data
 
+  # @param [Array] data
   def initialize(data = [])
     @data = data
   end

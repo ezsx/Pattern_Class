@@ -1,9 +1,13 @@
 require 'pg'
-require_relative '../lab2_ruby/task4/DataList'
+require_relative '../../lab2_ruby/task4/DataList'
 require_relative '../../lab2_ruby/task1_2/Student_and_Student_short'
 
 # TODO: add check data for valid info and check mistakes
 class Students_list_DB
+  # @param [Object] dbname
+  # @param [Object] user
+  # @param [Object] password
+  # @param [Object] host
   def initialize(dbname, user, password, host)
     @conn = PG.connect(dbname: dbname, user: user, password: password, host: host)
   end

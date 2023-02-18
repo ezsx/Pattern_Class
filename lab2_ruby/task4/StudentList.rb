@@ -2,6 +2,7 @@
 class StudentList
   attr_accessor :students
 
+  # @param [Array] students
   def initialize(students = [])
     @students = students
   end

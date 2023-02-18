@@ -3,6 +3,7 @@ require_relative '../task1_2/Student_and_Student_short'
 
 
 class StudentListTXT < StudentListBase
+  # @param [Object] file_path
   def initialize(file_path)
     super()
     @file_path = file_path

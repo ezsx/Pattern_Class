@@ -11,7 +11,7 @@ Sequel.extension :migration
 Sequel::Migrator.run(DB, 'migrations')
 
 # Load all seed files in the seeds directory
-Dir[File.join(File.dirname(__FILE__), 'seeds', '*.rb')].each do |file|
+Dir[File.join(File.dirname(__FILE__), 'seed', '*.rb')].sort.each do |file|
   require file
 end
 

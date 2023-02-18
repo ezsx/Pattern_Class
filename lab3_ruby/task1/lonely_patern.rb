@@ -2,7 +2,7 @@
 
 require 'pg'
 
-class DataBase
+class DataBase_Lonely
   @@instance = nil
 
   def self.instance

@@ -14,6 +14,9 @@ class StudentListBase < StudentList
     students.find { |s| s.id == id }
   end
 
+  # @param [Object] k
+  # @param [Object] n
+  # @param [nil] data_list
   def get_k_n_student_short_list(k, n, data_list = nil)
     if data_list.nil?
       data_list = DataList.new(students.slice(k, n).map { |s| Student_short.new(id: s.id, surname: s.surname, initials: s.initials, git: s.git, contact: s.contact) })

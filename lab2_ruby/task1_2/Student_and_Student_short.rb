@@ -2,6 +2,7 @@ class Student
   attr_accessor :id, :surname, :first_name, :patronymic, :phone, :telegram, :mail, :git, :initials, :contact
 
   # TODO: its hashed but we cant see parameters while init it
+  # @param [Hash{Symbol->String}] options
   def initialize(options = { surname: '', first_name: '', patronymic: '' })
     @id = options[:id]
     @surname = options[:surname]
