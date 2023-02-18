@@ -2,6 +2,7 @@ require 'pg'
 require_relative '../lab2_ruby/task4/DataList'
 require_relative '../../lab2_ruby/task1_2/Student_and_Student_short'
 
+# TODO: add check data for valid info and check mistakes
 class Students_list_DB
   def initialize(dbname, user, password, host)
     @conn = PG.connect(dbname: dbname, user: user, password: password, host: host)
@@ -9,11 +10,10 @@ class Students_list_DB
 
   def get_student_by_id(id)
     result = @conn.exec_params('SELECT * FROM students WHERE id=$1', [id])
-    return nil if result.ntuples == 0
     row = result[0]
-    Student.new(id: id, surname: result['surname'], first_name: result['first_name'],
-                patronymic: result['patronymic'], phone: result['phone'], telegram: result['telegram'],
-                mail: result['mail'], git: result['git'], initials: result['initials'], contact: result['contact'])
+    Student.new(id: id, surname: row['surname'], first_name: row['first_name'],
+                patronymic: row['patronymic'], phone: row['phone'], telegram: row['telegram'],
+                mail: row['mail'], git: row['git'], initials: row['initials'], contact: row['contact'])
   end
 
   def get_k_n_student_short_list(k, n)
