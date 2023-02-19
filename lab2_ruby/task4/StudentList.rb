@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Student_list
   attr_accessor :students
 
@@ -34,7 +36,15 @@ class Student_list
     Students_short_getter.new(data_getter).get_k_n_student_short_list(n, k)
   end
 
+  def get_k_n_student_short(k, n)
+    @students.take(k * n).each_slice(n).map { |group| Student_list.new(group) }
+  end
+
   def get_student_short_count(data_getter = @students)
     Students_short_getter.new(data_getter).get_student_short_count
+  end
+
+  def filter(&block)
+    Student_list.new(@students.select(&block))
   end
 end
