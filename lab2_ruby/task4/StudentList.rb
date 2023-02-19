@@ -1,5 +1,4 @@
-
-class StudentList
+class Student_list
   attr_accessor :students
 
   # @param [Array] students
@@ -27,7 +26,15 @@ class StudentList
     @students.delete_if { |student| student.id == id }
   end
 
-  def sort_by_surname_and_initials
-    @students.sort_by! { |student| [student.surname, student.initials] }
+  def get_student_count
+    @students.size
+  end
+
+  def get_k_n_student_short_list_(n, k, data_getter = @students)
+    Students_short_getter.new(data_getter).get_k_n_student_short_list(n, k)
+  end
+
+  def get_student_short_count(data_getter = @students)
+    Students_short_getter.new(data_getter).get_student_short_count
   end
 end

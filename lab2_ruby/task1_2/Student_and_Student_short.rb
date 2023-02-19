@@ -13,7 +13,13 @@ class Student
     @mail = options[:mail]
     @git = options[:git]
     @initials = "#{first_name[0]}.#{patronymic[0]}."
-    @contact = if phone then "Phone: #{phone}" elsif telegram then "Telegram: #{telegram}" elsif mail then "Mail: #{mail}" end
+    @contact = if phone
+                 "Phone: #{phone}"
+               elsif telegram
+                 "Telegram: #{telegram}"
+               elsif mail
+                 "Mail: #{mail}"
+               end
     validate_fields
   end
 
@@ -235,7 +241,7 @@ end
 class Student_short
   attr_reader :id, :surname, :initials, :git, :contact
 
-  def initialize(id: nil , surname: nil, initials: nil, git: nil, contact:nil)
+  def initialize(id: nil, surname: nil, initials: nil, git: nil, contact: nil)
     @id = id
     @surname = surname
     @initials = initials
