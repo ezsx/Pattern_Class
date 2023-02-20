@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require_relative '../../lab3_ruby/task3/Student_short_getter'
 class Student_list
   attr_accessor :students
 
@@ -48,4 +48,5 @@ class Student_list
   def filter(&block)
     Student_list.new(@students.select(&block))
   end
+
 end

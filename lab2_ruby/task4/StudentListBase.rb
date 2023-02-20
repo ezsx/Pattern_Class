@@ -1,6 +1,6 @@
-
-class StudentListBase < StudentList
-  attr_accessor :students, :file_path
+require_relative '../task4/StudentList'
+class StudentListBase < Student_list
+  attr_accessor :students, :file_path, :data
 
   def load_data
     raise "load_data method must be implemented in a subclass"
@@ -19,9 +19,9 @@ class StudentListBase < StudentList
   # @param [nil] data_list
   def get_k_n_student_short_list(k, n, data_list = nil)
     if data_list.nil?
-      data_list = DataList.new(students.slice(k, n).map { |s| Student_short.new(id: s.id, surname: s.surname, initials: s.initials, git: s.git, contact: s.contact) })
+      data_list = Student_list.new(students.slice(k, n).map { |s| Student_short.new(id: s.id, surname: s.surname, initials: s.initials, git: s.git, contact: s.contact) })
     else
-      data_list.data = students.slice(k, n).map { |s| Student_short.new(id: s.id, surname: s.surname, initials: s.initials, git: s.git, contact: s.contact) }
+      data_list.students = students.slice(k, n).map { |s| Student_short.new(id: s.id, surname: s.surname, initials: s.initials, git: s.git, contact: s.contact) }
     end
 
     data_list

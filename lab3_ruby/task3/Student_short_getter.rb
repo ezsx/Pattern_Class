@@ -1,3 +1,5 @@
+
+require_relative '../../lab2_ruby/task4/StudentList'
 class Students_short_getter
   attr_accessor :data_getter
 
