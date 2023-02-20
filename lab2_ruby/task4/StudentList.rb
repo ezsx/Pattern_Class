@@ -36,8 +36,9 @@ class Student_list
     Students_short_getter.new(data_getter).get_k_n_student_short_list(n, k)
   end
 
-  def get_k_n_student_short(k, n)
-    @students.take(k * n).each_slice(n).map { |group| Student_list.new(group) }
+  def get_k_n_student_short(k, n, sort_field = :id)
+    sorted_students = @students.sort_by { |s| s.send(sort_field) }
+    sorted_students.take(k * n).each_slice(n).map { |group| Student_list.new(group) }
   end
 
   def get_student_short_count(data_getter = @students)
