@@ -1,12 +1,12 @@
-
 require_relative '../../lab2_ruby/task4/StudentList'
-class Students_short_getter
+
+class Students_Filtered
   attr_accessor :data_getter
 
   def initialize(data_getter)
     @data_getter = data_getter
   end
-
+  public
   def get_k_n_student_short_list(n, k, filters = {})
     filtered_data = apply_filters(filters, @data_getter)
     filtered_data.take(n * k)
@@ -17,6 +17,10 @@ class Students_short_getter
   def get_student_short_count(filters = {})
     filtered_data = apply_filters(filters, @data_getter)
     filtered_data.size
+  end
+
+  def search(&block)
+    @data_getter.select(&block)
   end
 
   private
@@ -60,67 +64,92 @@ class Students_short_getter
 end
 
 # frozen_string_literal: true
-
-class StudentsShortGetterWrapper
-  def initialize(strategy)
-    @strategy = strategy
+class Students_Search
+  def initialize(student_getter)
+    @student_getter = student_getter
+    @filters = {}
   end
 
-  def search_by_surname(surname)
-    @strategy.search { |student| student.surname.include?(surname) }
+  def with_surname(surname)
+    @filters[:surname] = surname
+    self
   end
 
-  def search_by_initials(initials)
-    @strategy.search { |student| student.initials.include?(initials) }
+  def with_initials(initials)
+    @filters[:initials] = initials
+    self
   end
 
-  def search_by_mail
-    @strategy.search { |student| student.mail.present? }
+  def with_mail(mail)
+    @filters[:mail] = mail
+    self
   end
 
-  def search_by_phone
-    @strategy.search { |student| student.phone.present? }
+  def with_phone(phone)
+    @filters[:phone] = phone
+    self
   end
 
-  def search_by_telegram
-    @strategy.search { |student| student.telegram.present? }
+  def with_telegram(telegram)
+    @filters[:telegram] = telegram
+    self
   end
 
-  def search_by_git
-    @strategy.search { |student| student.git.present? }
+  def with_git(git)
+    @filters[:git] = git
+    self
   end
 
-  def search_by_mail_absent
-    @strategy.search { |student| student.mail.blank? }
+  def with_mail_present
+    @filters[:has_mail] = true
+    self
   end
 
-  def search_by_phone_absent
-    @strategy.search { |student| student.phone.blank? }
+  def with_phone_present
+    @filters[:has_phone] = true
+    self
   end
 
-  def search_by_telegram_absent
-    @strategy.search { |student| student.telegram.blank? }
+  def with_telegram_present
+    @filters[:has_telegram] = true
+    self
   end
 
-  def search_by_git_absent
-    @strategy.search { |student| student.git.blank? }
+  def with_git_present
+    @filters[:has_git] = true
+    self
+  end
+
+  def with_mail_missing
+    @filters[:no_mail] = true
+    self
+  end
+
+  def with_phone_missing
+    @filters[:no_phone] = true
+    self
+  end
+
+  def with_telegram_missing
+    @filters[:no_telegram] = true
+    self
+  end
+
+  def with_git_missing
+    @filters[:no_git] = true
+    self
+  end
+
+  def reset_filters
+    @filters = {}
+    self
+  end
+
+  def results(n, k)
+    @student_getter.get_k_n_student_short_list(n, k, @filters)
+  end
+
+  def count
+    @student_getter.get_student_short_count(@filters)
   end
 end
-
-# example of usage
-#
-# # Create a StudentsShortGetter instance and wrap it with the wrapper
-# getter = StudentsShortGetter.new(students.students)
-# wrapper = StudentsShortGetterWrapper.new(getter)
-#
-# # Search for students with the surname "Doe"
-# results = wrapper.search_by_surname("Doe")
-#
-# # Print the results
-# results.each do |student|
-#   puts "#{student.initials} #{student.surname}"
-# end
-#
-# # Output:
-# # JD Doe
-# # JD Doe

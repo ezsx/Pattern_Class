@@ -33,7 +33,7 @@ class Student_list
   end
 
   def get_k_n_student_short_list_(n, k, data_getter = @students)
-    Students_short_getter.new(data_getter).get_k_n_student_short_list(n, k)
+    Students_Filtered.new(data_getter).get_k_n_student_short_list(n, k)
   end
 
   def get_k_n_student_short(k, n, sort_field = :id)
@@ -42,7 +42,7 @@ class Student_list
   end
 
   def get_student_short_count(data_getter = @students)
-    Students_short_getter.new(data_getter).get_student_short_count
+    Students_Filtered.new(data_getter).get_student_short_count
   end
 
   def filter(&block)
