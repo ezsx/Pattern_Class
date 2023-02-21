@@ -6,7 +6,7 @@ class Students_Filtered
   def initialize(data_getter)
     @data_getter = data_getter
   end
-  public
+
   def get_k_n_student_short_list(n, k, filters = {})
     filtered_data = apply_filters(filters, @data_getter)
     filtered_data.take(n * k)

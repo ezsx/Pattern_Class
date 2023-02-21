@@ -44,5 +44,4 @@ def main(method_index, file_address)
   end
 end
 
-# Usage example
-main(1, "path/to/file.txt")
+main(3,"file.txt")

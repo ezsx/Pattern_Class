@@ -42,13 +42,7 @@ class Student
   def get_info
     info = "#{surname} #{initials}."
     info += " Git: #{git}" if git
-    if phone
-      info += " Phone: #{phone}"
-    elsif telegram
-      info += " Telegram: #{telegram}"
-    elsif mail
-      info += " Mail: #{mail}"
-    end
+    info += get_communication
     info
   end
 

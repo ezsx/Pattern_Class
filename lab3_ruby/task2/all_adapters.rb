@@ -1,4 +1,5 @@
-# TODO: separate class to many files
+# TODO: Refactor Student class to fit init:
+#
 
 
 require_relative '../../lab2_ruby/task1_2/Student_and_Student_short'
