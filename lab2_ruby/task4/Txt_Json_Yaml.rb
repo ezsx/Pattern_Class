@@ -1,5 +1,5 @@
 # import classes from other directories
-require_relative '../task1_2/Student_and_Student_short'
+require_relative '../task1_2/Student'
 require_relative '../task4/StudentListBase'
 
 

@@ -37,7 +37,7 @@ class DataList
     DataList.new(short_data[k - 1, n])
   end
 
-  def get_data_count
+  def data_count
     @data.count
   end
 end

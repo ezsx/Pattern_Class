@@ -1,6 +1,6 @@
 require 'pg'
 require_relative '../../lab2_ruby/task4/DataList'
-require_relative '../../lab2_ruby/task1_2/Student_and_Student_short'
+require_relative '../../lab2_ruby/task1_2/Student'
 
 # TODO: add check data for valid info and check mistakes
 class Students_list_DB

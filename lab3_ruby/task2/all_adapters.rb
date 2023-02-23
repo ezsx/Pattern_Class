@@ -2,7 +2,7 @@
 #
 
 
-require_relative '../../lab2_ruby/task1_2/Student_and_Student_short'
+require_relative '../../lab2_ruby/task1_2/Student'
 require 'pg'
 
 class StudentListDBAdapter < StudentListBase

@@ -1,6 +1,6 @@
 # Some tests
 
-require_relative 'lab2_ruby/task1_2/Student_and_Student_short'
+require_relative 'lab2_ruby/task1_2/Student'
 require_relative 'lab2_ruby/task4/StudentList'
 require_relative 'lab2_ruby/task4/Txt_Json_Yaml'
 require_relative 'lab3_ruby/task3/Student_short_getter'
