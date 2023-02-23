@@ -12,9 +12,13 @@ class Student
     @telegram = options[:telegram]
     @mail = options[:mail]
     @git = options[:git]
-    @initials = initials
+    @initials = initials_get
     @contact = communication
     validate_fields
+  end
+
+  def student_short
+    "#{@id} #{@surname} #{@initials} #{@contact}"
   end
 
   def set_contacts(params = { phone: '', telegram: '', mail: '', git: '' })
@@ -56,7 +60,7 @@ class Student
   end
 
   # @return [String]
-  def initials
+  def initials_get
     "#{@first_name[0]}.#{@patronymic[0]}." if @first_name and @patronymic
   end
 

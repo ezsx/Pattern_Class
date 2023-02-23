@@ -1,5 +1,5 @@
 require 'pg'
-require_relative '../db_config'
+require_relative '../../ruby_APP/DB_config/db_config'
 
 conn = Database.conn
 

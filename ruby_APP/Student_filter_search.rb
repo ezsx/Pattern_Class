@@ -1,4 +1,4 @@
-require_relative '../../lab2_ruby/task4/StudentList'
+require_relative '../../lab2_ruby/task4/List'
 
 class Students_Filtered
   attr_accessor :data_getter
@@ -7,14 +7,14 @@ class Students_Filtered
     @data_getter = data_getter
   end
 
-  def get_k_n_student_short_list(n, k, filters = {})
+  def get_k_n_student_list(n, k, filters = {})
     filtered_data = apply_filters(filters, @data_getter)
     filtered_data.take(n * k)
                  .each_slice(k)
                  .map { |group| Student_list.new(group) }
   end
 
-  def get_student_short_count(filters = {})
+  def get_student_count(filters = {})
     filtered_data = apply_filters(filters, @data_getter)
     filtered_data.size
   end

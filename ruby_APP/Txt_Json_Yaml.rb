@@ -1,6 +1,6 @@
 # import classes from other directories
-require_relative '../task1_2/Student'
-require_relative '../task4/StudentListBase'
+require_relative '../task1_2/APP/Student'
+require_relative '../task4/stBase'
 
 
 class StudentListTXT < StudentListBase

@@ -1,4 +1,4 @@
-
+# TODO: in Student class variable contacts contain git, so we need to remove git from student short
 class Student_short
   attr_accessor :id, :surname, :initials, :git, :contact
 

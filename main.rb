@@ -1,9 +1,10 @@
 # Some tests
+# TODO: refactor all this:
 
-require_relative 'lab2_ruby/task1_2/Student'
-require_relative 'lab2_ruby/task4/StudentList'
-require_relative 'lab2_ruby/task4/Txt_Json_Yaml'
-require_relative 'lab3_ruby/task3/Student_short_getter'
+require_relative 'lab2_ruby/task1_2/b'
+require_relative 'lab2_ruby/task4/List'
+require_relative 'lab2_ruby/task4/n_Yaml'
+require_relative 'lab3_ruby/task3/_short_getter'
 
 students_l = [
   Student.new(id: '1', surname: 'Aurn', first_name: 'Firstn', patronymic: 'Sufu', phone: '79996340632', telegram: 'ezsx', mail: 'scdcor@gmail.com', git: 'https://github.com/ezsx'),
