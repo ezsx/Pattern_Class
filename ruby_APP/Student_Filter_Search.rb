@@ -1,6 +1,6 @@
-require_relative '../../lab2_ruby/task4/List'
+require_relative "../ruby_APP/Student_List"
 
-class Students_Filtered
+class Student_Filtered
   attr_accessor :data_getter
 
   def initialize(data_getter)
@@ -11,7 +11,7 @@ class Students_Filtered
     filtered_data = apply_filters(filters, @data_getter)
     filtered_data.take(n * k)
                  .each_slice(k)
-                 .map { |group| Student_list.new(group) }
+                 .map { |group| Student_List.new(group) }
   end
 
   def get_student_count(filters = {})
@@ -58,13 +58,15 @@ class Students_Filtered
         filtered_data.select { |student| student.telegram.nil? }
       when :no_git
         filtered_data.select { |student| student.git.nil? }
+      else
+        raise "filter is nill"
       end
     end
   end
 end
 
 # frozen_string_literal: true
-class Students_Search
+class Student_Search
   def initialize(student_getter)
     @student_getter = student_getter
     @filters = {}
@@ -146,10 +148,10 @@ class Students_Search
   end
 
   def results(n, k)
-    @student_getter.get_k_n_student_short_list(n, k, @filters)
+    @student_getter.get_k_n_student_list(n, k, @filters)
   end
 
   def count
-    @student_getter.get_student_short_count(@filters)
+    @student_getter.get_student_count(@filters)
   end
 end

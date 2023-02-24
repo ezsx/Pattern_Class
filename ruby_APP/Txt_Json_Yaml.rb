@@ -1,9 +1,7 @@
 # import classes from other directories
-require_relative '../task1_2/APP/Student'
-require_relative '../task4/stBase'
+require_relative '../ruby_APP/Student_List_Base'
 
-
-class StudentListTXT < StudentListBase
+class Student_List_TXT < Student_List_Base
   # @param [Object] file_path
   def initialize(file_path)
     super()
@@ -32,7 +30,7 @@ class StudentListTXT < StudentListBase
 end
 
 
-class StudentListJSON < StudentListBase
+class Student_List_JSON < Student_List_Base
 
   def load_data
     serialized_data = File.read(@file_path)
@@ -47,7 +45,7 @@ end
 
 require 'yaml'
 
-class StudentListYAML < StudentListBase
+class Student_List_YAML < Student_List_Base
   attr_reader :file_name
 
   def load_data
