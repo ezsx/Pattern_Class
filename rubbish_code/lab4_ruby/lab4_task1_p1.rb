@@ -1,22 +1,31 @@
 require 'fox16'
 include Fox
 
-class HelloWorldWindow < FXMainWindow
+class StudentListView < FXMainWindow
   def initialize(app)
     # Call the base class constructor first
-    super(app, "Hello, World!", :width => 300, :height => 100)
+    super(app, "Student List", :width => 600, :height => 400)
 
-    # Create a horizontal frame to hold the label and button
-    hframe = FXHorizontalFrame.new(self, LAYOUT_FILL_X|LAYOUT_FILL_Y)
+    # Create a tab widget
 
-    # Create a label and add it to the horizontal frame
-    @label = FXLabel.new(hframe, "Hello, World!")
+    hframe = FXHorizontalFrame.new(self, :opts => LAYOUT_FILL_X|LAYOUT_FILL_Y)
 
-    # Create a button and add it to the horizontal frame
-    button = FXButton.new(hframe, "Click me!")
-    button.connect(SEL_COMMAND) do
-      @label.text = "Button clicked!"
-    end
+    tab_widget = FXTabBook.new(hframe)
+
+    student_list_tab = FXTabItem.new(tab_widget, "Student List")
+
+    vframe = FXVerticalFrame.new(student_list_tab, :opts => LAYOUT_FILL_X|LAYOUT_FILL_Y)
+
+
+    control_buttons_hframe = FXHorizontalFrame.new(vframe, :opts => LAYOUT_FILL_X)
+
+    add_button = FXButton.new(control_buttons_hframe, "Add Student")
+
+
+
+
+
+
   end
 
   def create
@@ -30,7 +39,7 @@ end
 app = FXApp.new
 
 # Create the main window
-HelloWorldWindow.new(app)
+StudentListView.new(app)
 
 # Run the application
 app.create
