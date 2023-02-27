@@ -3,11 +3,12 @@ class Student
 
   # TODO: its hashed but we cant see parameters while init it
   # @param [Hash{Symbol->String}] options
-  def initialize(options = { surname: '', first_name: '', patronymic: '' })
+
+  def initialize(options = {})
     @id = options[:id]
-    @surname = options[:surname]
-    @first_name = options[:first_name]
-    @patronymic = options[:patronymic]
+    @surname = options[:surname] || ''
+    @first_name = options[:first_name] || ''
+    @patronymic = options[:patronymic] || ''
     @phone = options[:phone]
     @telegram = options[:telegram]
     @mail = options[:mail]
@@ -16,6 +17,21 @@ class Student
     @contact = communication
     validate_fields
   end
+
+  def self.initialize2(id, surname, first_name, patronymic, phone, telegram, mail, git)
+    @id = id
+    @surname = surname
+    @first_name = first_name
+    @patronymic = patronymic
+    @phone = phone
+    @telegram = telegram
+    @mail = mail
+    @git = git
+    @initials = initials_get
+    @contact = communication
+    validate_fields
+  end
+
 
   def student_short
     "#{@id} #{@surname} #{@initials} #{@contact}"
@@ -65,12 +81,20 @@ class Student
   end
 
   def to_s
-    "ID: #{id}, Surname: #{surname}, First name: #{first_name}, Patronymic: #{patronymic}, Phone: #{phone}, Telegram: #{telegram}, Mail: #{mail}, Git: #{git}"
+    "ID: #{id}, Surname: #{surname}, First name: #{first_name}, Patronymic: #{patronymic}, Phone: #{phone}, Telegram:
+         #{telegram}, Mail: #{mail}, Git: #{git}"
+  end
+
+  def self.display(students)
+    students.each do |student_|
+      puts student_.to_s
+    end
   end
 
   def self.from_string(string)
     id, surname, first_name, patronymic, phone, telegram, mail, git = string.split(',')
-    params = { id: id, surname: surname, first_name: first_name, patronymic: patronymic, phone: phone, telegram: telegram, mail: mail, git: git }
+    params = { id: id, surname: surname, first_name: first_name, patronymic: patronymic, phone: phone, telegram:
+      telegram, mail: mail, git: git }
     new(params)
   end
 
@@ -101,7 +125,7 @@ class Student
         file.each_line do |line|
           id, surname, first_name, patronymic, phone, telegram, mail, git = line.split(',')
           params_to = { id: id, surname: surname, first_name: first_name, patronymic: patronymic, phone: phone, telegram: telegram, mail: mail, git: git }
-          Student.new(params_to) << students
+          students.push(Student.new(params_to))
         end
       end
       students
@@ -109,6 +133,7 @@ class Student
       raise "File not found at the given address #{file_path}. Exception: #{exception.message}"
     end
   end
+
 
   def self.write_to_txt(file_path, students)
     begin

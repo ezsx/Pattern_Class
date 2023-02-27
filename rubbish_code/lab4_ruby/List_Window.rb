@@ -4,7 +4,7 @@ include Fox
 
 class ListWindow < FXMainWindow
   def initialize(app)
-    super(app, "List Example", nil, nil, DECOR_ALL)
+    super(app, "List Example", :width => 400, :height => 200)
 
     @list_widget = FXList.new(self, nil, 0, LIST_SINGLESELECT|LAYOUT_FILL_X|LAYOUT_FILL_Y)
     @list_widget.appendItem("Item 1")

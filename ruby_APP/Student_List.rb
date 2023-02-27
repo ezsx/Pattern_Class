@@ -38,11 +38,25 @@ class Student_List
   end
 
   def get_student_count(data_getter = @students)
-    Student_Filtered.new(data_getter).get_student_short_count
+    Student_Filtered.new(data_getter).get_student_count
   end
 
   def filter(&block)
     Student_List.new(@students.select(&block))
+  end
+
+  def to_s
+    output = ""
+    @students.each do |student|
+      output += "Student ID: #{student.id}\n"
+      output += "Name: #{student.surname} #{student.first_name} #{student.patronymic}\n"
+      output += "Contact: #{student.contact}\n"
+      output += "Telegram: #{student.telegram}\n" if student.telegram
+      output += "Email: #{student.mail}\n" if student.mail
+      output += "Github: #{student.git}\n" if student.git
+      output += "\n"
+    end
+    output
   end
 
 end
