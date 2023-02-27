@@ -81,8 +81,7 @@ class Student
   end
 
   def to_s
-    "ID: #{id}, Surname: #{surname}, First name: #{first_name}, Patronymic: #{patronymic}, Phone: #{phone}, Telegram:
-         #{telegram}, Mail: #{mail}, Git: #{git}"
+    "ID: #{id}, Surname: #{surname}, First name: #{first_name}, Patronymic: #{patronymic}, Phone: #{phone}, Telegram: #{telegram}, Mail: #{mail}, Git: #{git}"
   end
 
   def self.display(students)
@@ -124,7 +123,8 @@ class Student
       File.open(file_path, 'r') do |file|
         file.each_line do |line|
           id, surname, first_name, patronymic, phone, telegram, mail, git = line.split(',')
-          params_to = { id: id, surname: surname, first_name: first_name, patronymic: patronymic, phone: phone, telegram: telegram, mail: mail, git: git }
+          params_to = { id: id, surname: surname, first_name: first_name, patronymic: patronymic, phone: phone,
+                        telegram: telegram, mail: mail, git: git }
           students.push(Student.new(params_to))
         end
       end
