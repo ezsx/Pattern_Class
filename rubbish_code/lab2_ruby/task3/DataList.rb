@@ -35,6 +35,8 @@ end
 class Data_list_
   attr_reader :data
 
+  private_class_method :new
+
   def initialize(data)
     @data = data
     @selected = []
@@ -44,7 +46,7 @@ class Data_list_
     @selected << @data[number]
   end
 
-  def get_selected
+  def selected
     @selected.map(&:id)
   end
 

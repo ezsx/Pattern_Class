@@ -13,7 +13,7 @@ class Student
     @git = options[:git]
     @initials = initials_get
     @contact = communication
-    validate_fields
+    validate_fields?
   end
 
   # @param [Object] id
@@ -24,7 +24,7 @@ class Student
   # @param [Object] telegram
   # @param [Object] mail
   # @param [Object] git
-  def self.initialize2(id, surname, first_name, patronymic, phone, telegram, mail, git)
+  def self.initialize2(id: '', surname: '', first_name:'', patronymic:'', phone: nil, telegram: nil, mail: nil, git: nil)
     @id = id
     @surname = surname
     @first_name = first_name
@@ -122,11 +122,11 @@ class Student
 
   private
 
-  def validate_fields
-    validate_contact
+  def validate_fields?
+    validate_contact?
   end
 
-  def validate_contact
+  def validate_contact?
     raise ArgumentError, 'A contact for communication is required' unless (git || phone || telegram || mail)
   end
 
