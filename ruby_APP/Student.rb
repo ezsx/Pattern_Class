@@ -1,9 +1,7 @@
 class Student
-  attr_accessor :id, :surname, :first_name, :patronymic, :phone, :telegram, :mail, :git, :initials, :contact
+  attr_reader :id, :surname, :first_name, :patronymic, :phone, :telegram, :mail, :git, :initials, :contact
 
-  # TODO: its hashed but we cant see parameters while init it
-  # @param [Hash{Symbol->String}] options
-
+  # @param [Hash] options
   def initialize(options = {})
     @id = options[:id]
     @surname = options[:surname] || ''
@@ -18,6 +16,14 @@ class Student
     validate_fields
   end
 
+  # @param [Object] id
+  # @param [Object] surname
+  # @param [Object] first_name
+  # @param [Object] patronymic
+  # @param [Object] phone
+  # @param [Object] telegram
+  # @param [Object] mail
+  # @param [Object] git
   def self.initialize2(id, surname, first_name, patronymic, phone, telegram, mail, git)
     @id = id
     @surname = surname
@@ -32,7 +38,6 @@ class Student
     validate_fields
   end
 
-
   def student_short
     "#{@id} #{@surname} #{@initials} #{@contact}"
   end
@@ -44,40 +49,31 @@ class Student
     @git = params[:git] if self.class.valid_git?(params[:git])
   end
 
-  def validate_fields
-    validate_contact
-  end
-
   def info
     info = "#{surname} #{initials}."
-    info += " Git: #{git}" if git
-    info += communication
+    info << " Git: #{git}" if git
+    info << communication
     info
   end
 
   def communication
-    info = ''
-    if @phone
-      info += "Phone: #{@phone}"
-    elsif @telegram
-      info += "Telegram: #{@telegram}"
-    elsif @mail
-      info += "Mail: #{@mail}"
+    # rubocop:disable Style/EmptyCaseCondition
+    case
+    when @phone then "Phone: #{@phone}"
+    when @telegram then "Telegram: #{@telegram}"
+    when @mail then "Mail: #{@mail}"
+    else ''
     end
-    info
   end
 
-  def names
-    names = ''
-    names += "#{@surname} " if @surname
-    names += "#{@first_name} " if @first_name
-    names += "#{@patronymic}" if @patronymic
-    names
+
+  def full_name
+    "#{@surname} #{@first_name} #{@patronymic}"
   end
 
   # @return [String]
   def initials_get
-    "#{@first_name[0]}.#{@patronymic[0]}." if @first_name and @patronymic
+    "#{@first_name[0]}.#{@patronymic[0]}." if @first_name && @patronymic
   end
 
   def to_s
@@ -85,9 +81,7 @@ class Student
   end
 
   def self.display(students)
-    students.each do |student_|
-      puts student_.to_s
-    end
+    students.each { |student| puts student.to_s }
   end
 
   def self.from_string(string)
@@ -95,26 +89,6 @@ class Student
     params = { id: id, surname: surname, first_name: first_name, patronymic: patronymic, phone: phone, telegram:
       telegram, mail: mail, git: git }
     new(params)
-  end
-
-  def validate_contact
-    raise ArgumentError, 'A contact for communication is required' unless (git || phone || telegram || mail)
-  end
-
-  def self.valid_phone?(phone)
-    phone.is_a?(String) && phone.match(/\A[0-9]+\z/)
-  end
-
-  def self.valid_telegram?(telegram)
-    telegram.is_a?(String) && telegram.match(/\A[a-zA-Z0-9]+\z/)
-  end
-
-  def self.valid_mail?(mail)
-    mail.is_a?(String) && mail.match(/\A[a-zA-Z0-9]+@[a-z]+.[a-z]+\z/)
-  end
-
-  def self.valid_git?(git)
-    git.is_a?(String) && git.match(/\Ahttps?:\/\/github\.com\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\z/)
   end
 
   def self.read_from_txt(file_path)
@@ -134,7 +108,6 @@ class Student
     end
   end
 
-
   def self.write_to_txt(file_path, students)
     begin
       File.open(file_path, 'w') do |file|
@@ -146,5 +119,39 @@ class Student
       raise "File could not be written at the given address #{file_path}. Exception: #{exception.message}"
     end
   end
+
+  private
+
+  def validate_fields
+    validate_contact
+  end
+
+  def validate_contact
+    raise ArgumentError, 'A contact for communication is required' unless (git || phone || telegram || mail)
+  end
+
+  def self.valid_phone?(phone)
+    phone.is_a?(String) && phone.match(/\A[0-9]+\z/)
+  end
+
+  private_class_method :valid_phone?
+
+  def self.valid_telegram?(telegram)
+    telegram.is_a?(String) && telegram.match(/\A[a-zA-Z0-9]+\z/)
+  end
+
+  private_class_method :valid_telegram?
+
+  def self.valid_mail?(mail)
+    mail.is_a?(String) && mail.match(/\A[a-zA-Z0-9]+@[a-z]+.[a-z]+\z/)
+  end
+
+  private_class_method :valid_mail?
+
+  def self.valid_git?(git)
+    git.is_a?(String) && git.match(/\Ahttps?:\/\/github\.com\/[a-zA-Z0-9]+\/[a-zA-Z0-9]+\z/)
+  end
+
+  private_class_method :valid_git?
 
 end

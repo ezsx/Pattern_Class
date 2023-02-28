@@ -1,4 +1,4 @@
-class DataListStudentShort < DataList
+class DataListStudentShort < Data_List_
   attr_reader :column_names
   attr_accessor :data
 

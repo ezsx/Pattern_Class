@@ -1,6 +1,11 @@
 require 'fox16'
 include Fox
 
+require 'Student'
+require 'Student_List'
+require 'Student_Filter_Search'
+
+
 
 # chatGPT create a good template, but needed refactoring
 
@@ -53,6 +58,7 @@ class StudentAppWindow < FXMainWindow
     # Connect signals to slots for button functionality
     add_button.connect(SEL_COMMAND) do
       # Open add student dialog
+      # TODO: implement StudentAddDialog
       add_dialog = StudentAddDialog.new(self)
       if add_dialog.execute() == 1
         # Add new student to list and update display
