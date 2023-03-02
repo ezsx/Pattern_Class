@@ -30,7 +30,7 @@ class Student_List_View < FXMainWindow
     # Add student list to FXMatrix
     @student_list = FXList.new(student_list_matrix,
                                opts: LIST_BROWSESELECT | LAYOUT_FIX_WIDTH | LAYOUT_FIX_HEIGHT,
-                               width: 920, height: 390)# adjust the height
+                               width: 920, height: 390) # adjust the height
     student_l.each { |el| @student_list.appendItem(el.to_s) }
 
     # Create vertical layout for filters
@@ -55,15 +55,50 @@ class Student_List_View < FXMainWindow
     add_button = FXButton.new(button_vlayout, "Add Student")
     update_button = FXButton.new(button_vlayout, "Update Student List")
     edit_button = FXButton.new(button_vlayout, "Edit Student")
+
+
     delete_button = FXButton.new(button_vlayout, "Delete Student")
+    delete_button.connect(SEL_COMMAND) do
+      student_l.delete_at(@student_list.currentItem)
+      refresh_list(student_l)
+    end
+
+
     refresh_button = FXButton.new(button_vlayout, "Refresh List")
+    refresh_button.connect(SEL_COMMAND) do
+      refresh_list(student_l)
+    end
 
-    # Disable edit and delete buttons until a row is selected
-    edit_button.disable
-    delete_button.disable
-
+    # Check if an item is selected in the list
+    if @student_list.currentItem >= 0
+      # Enable edit and delete buttons
+      edit_button.enable
+      delete_button.enable
+    else
+      # Disable edit and delete buttons
+      edit_button.disable
+      delete_button.disable
+    end
     # Recalculate layout
 
+  end
+
+  def refresh_list(student_l)
+    # Update the student list with the latest data
+    @student_list.clearItems
+    student_l.each { |el| @student_list.appendItem(el.to_s) }
+
+    # Clear any filters that may have been applied
+    clear_filters
+  end
+
+  def clear_filters
+    @surname_filter.check = false
+    @initials_filter.check = false
+    @mail_filter.check = false
+    @phone_filter.check = false
+    @telegram_filter.check = false
+    @git_filter.check = false
   end
 
   def create
