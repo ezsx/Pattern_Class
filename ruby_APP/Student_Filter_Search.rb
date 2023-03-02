@@ -1,4 +1,4 @@
-require_relative "../ruby_APP/Student_List"
+require_relative '../ruby_APP/Student_List'
 
 class Student_Filtered
   attr_accessor :data_getter
