@@ -1,4 +1,5 @@
 require 'fox16'
+require 'tk'
 include Fox
 
 require_relative '../ruby_APP/Student'
@@ -53,6 +54,10 @@ class Student_List_View < FXMainWindow
 
     # Add buttons for application control
     add_button = FXButton.new(button_vlayout, "Add Student")
+    add_button.connect(SEL_COMMAND) do
+      AddStudentWindow.new
+    end
+
     update_button = FXButton.new(button_vlayout, "Update Student List")
     edit_button = FXButton.new(button_vlayout, "Edit Student")
 
@@ -106,6 +111,37 @@ class Student_List_View < FXMainWindow
     show(PLACEMENT_SCREEN)
   end
 end
+
+require 'tk'
+
+class AddStudentWindow
+  def initialize
+    @root = TkRoot.new { title "Add Student" }
+    @frame = TkFrame.new(@root) { padx 10; pady 10; pack }
+    @label = TkLabel.new(@frame) { text "Enter student name:"; pack }
+    @entry = TkEntry.new(@frame) { pack }
+    @button = TkButton.new(@frame) { text "Add"; command { add_student }; pack }
+    @result_label = TkLabel.new(@frame) { text ""; pack }
+    @entry.bind("Return", proc { add_student })
+    @entry.focus
+    Tk.mainloop
+  end
+
+  def add_student
+    name = @entry.get.strip
+    if name.empty?
+      @result_label.configure(text: "Please enter a name.")
+    else
+      puts "New student added: #{name}"
+      @result_label.configure(text: "New student added: #{name}")
+      @entry.delete(0, :end)
+      @entry.focus
+    end
+  end
+end
+
+
+
 
 students_l = [
   Student.new(id: '1', surname: 'Aurn', first_name: 'Firstn', patronymic: 'Sufu', phone: '79996340632', telegram: 'ezsx', mail: 'scdcor@gmail.com', git: 'https://github.com/ezsx'),
