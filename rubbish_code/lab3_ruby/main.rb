@@ -1,9 +1,9 @@
 # Some tests
 
-require_relative 'ruby_APP/Student_List'
-require_relative 'ruby_APP/Student'
-require_relative 'ruby_APP/Txt_Json_Yaml'
-require_relative 'ruby_APP/Student_Filter_Search'
+require_relative 'ruby_APP/ode/lab2_ruby/task4/Student_List'
+require_relative 'ruby_APP/ode/lab2_ruby/task1/Student'
+require_relative 'ruby_APP/ode/lab3_ruby/task3/Txt_Json_Yaml'
+require_relative 'ruby_APP/y_APP/Student_Filter_Search'
 
 students_l = [
   Student.new(id: '1', surname: 'Aurn', first_name: 'Firstn', patronymic: 'Sufu', phone: '79996340632', telegram: 'ezsx', mail: 'scdcor@gmail.com', git: 'https://github.com/ezsx'),

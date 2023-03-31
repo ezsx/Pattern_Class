@@ -1,49 +1,67 @@
 require 'pg'
-require_relative '../ruby_APP/Student'
-require_relative '../ruby_APP/Student_List'
+require_relative '../ruby_APP/DB_config/db_config'
+require_relative '../ruby_APP/Student_info/student'
+require_relative '../ruby_APP/Student_info/student_list'
 
-class Students_list_DB
-  # @param [Object] dbname
-  # @param [Object] user
-  # @param [Object] password
-  # @param [Object] host
-  def initialize(dbname, user, password, host)
-    @conn = PG.connect(dbname: dbname, user: user, password: password, host: host)
+class StudentsListDB
+  def initialize(db_config)
+    @conn = PG.connect(dbname: db_config.dbname, user: db_config.user, password: db_config.password, host: db_config.host)
+  end
+
+  def create_table
+    @conn.exec("CREATE TABLE IF NOT EXISTS students (
+      id SERIAL PRIMARY KEY,
+      surname VARCHAR(255),
+      name VARCHAR(255),
+      middle_name VARCHAR(255),
+      phone VARCHAR(255),
+      telegram VARCHAR(255),
+      email VARCHAR(255),
+      git VARCHAR(255)
+    );")
   end
 
   def get_student_by_id(id)
     result = @conn.exec_params('SELECT * FROM students WHERE id=$1', [id])
     row = result[0]
-    Student.new(id: id, surname: row['surname'], first_name: row['first_name'],
-                patronymic: row['patronymic'], phone: row['phone'], telegram: row['telegram'],
-                mail: row['mail'], git: row['git'], initials: row['initials'], contact: row['contact'])
+    Student.new(
+      id: id,
+      name: row['name'],
+      surname: row['surname'],
+      middle_name: row['middle_name'],
+      contact_info: { phone: row['phone'], email: row['email'], telegram: row['telegram'] },
+      git: row['git']
+    )
   end
 
   def get_k_n_student_list(k, n)
     result = @conn.exec_params("SELECT * FROM students LIMIT $1 OFFSET $2", [k, n])
-    data_list = Student_List.new
+    data_list = StudentList.new
     result.each do |row|
-      data_list.add_student(Student.new(id: id, surname: row['surname'], first_name: row['first_name'],
-                                patronymic: row['patronymic'], phone: row['phone'], telegram: row['telegram'],
-                                mail: row['mail'], git: row['git'], initials: row['initials'], contact: row['contact']))
+      data_list.add_student(
+        Student.new(
+          id: row['id'].to_i,
+          name: row['name'],
+          surname: row['surname'],
+          middle_name: row['middle_name'],
+          contact_info: { phone: row['phone'], email: row['email'], telegram: row['telegram'] },
+          git: row['git']
+        )
+      )
     end
     data_list
   end
 
   def add_student(student)
-    id = generate_new_id
-    @conn.exec_params('INSERT INTO students (id, surname, first_name, patronymic, phone, telegram, mail, git, initials,
-                       contact) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
-                      [id, student.surname, student.first_name, student.patronymic, student.phone, student.telegram,
-                       student.mail, student.git, student.initials, student.contact])
+    @conn.exec_params('INSERT INTO students (surname, name, middle_name, phone, telegram, email, git) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+                      [student.surname, student.name, student.middle_name, student.contact_info.phone, student.contact_info.telegram,
+                       student.contact_info.email, student.git])
   end
 
-  def replace_student_by_id(id, student)
-    # TODO: method logic is not correct
-    @conn.exec_params('UPDATE students SET surname=$1, first_name=$2, patronymic=$3, phone=$4, telegram=$5, mail=$6,
-                       git=$7, initials=$8, contact=$9 WHERE id=$10',
-                      [student.surname, student.first_name, student.patronymic, student.phone, student.telegram,
-                       student.mail, student.git, student.initials, student.contact, id])
+  def update_student_by_id(id, student)
+    @conn.exec_params('UPDATE students SET surname=$1, name=$2, middle_name=$3, phone=$4, telegram=$5, email=$6, git=$7 WHERE id=$8',
+                      [student.surname, student.name, student.middle_name, student.contact_info.phone, student.contact_info.telegram,
+                       student.contact_info.email, student.git, id])
   end
 
   def delete_student_by_id(id)
@@ -53,16 +71,5 @@ class Students_list_DB
   def number_of_elements
     result = @conn.exec('SELECT COUNT(*) FROM students')
     result[0]['count'].to_i
-  end
-
-  private
-
-  def generate_new_id
-    result = @conn.exec('SELECT MAX(id) FROM students')
-    if result[0]['max'].nil?
-      1
-    else
-      result[0]['max'].to_i + 1
-    end
   end
 end

@@ -1,4 +1,4 @@
-require_relative '../ruby_APP/Student_List'
+require_relative '../ruby_APP/Student_info/student_list'
 
 class Student_Filtered
   attr_accessor :data_getter
@@ -11,7 +11,7 @@ class Student_Filtered
     filtered_data = apply_filters(filters, @data_getter)
     filtered_data.take(n * k)
                  .each_slice(k)
-                 .map { |group| Student_List.new(group) }
+                 .map { |group| StudentList.new(group) }
   end
 
   def get_student_count(filters = {})
@@ -35,11 +35,11 @@ class Student_Filtered
       when :initials
         filtered_data.select { |student| student.initials.downcase.include?(value.downcase) }
       when :mail
-        filtered_data.select { |student| student.mail.downcase.include?(value.downcase) }
+        filtered_data.select { |student| student.contact_info.email.to_s.downcase.include?(value.downcase) }
       when :phone
-        filtered_data.select { |student| student.phone.downcase.include?(value.downcase) }
+        filtered_data.select { |student| student.contact_info.phone.to_s.downcase.include?(value.downcase) }
       when :telegram
-        filtered_data.select { |student| student.telegram.downcase.include?(value.downcase) }
+        filtered_data.select { |student| student.contact_info.telegram.to_s.downcase.include?(value.downcase) }
       when :git
         filtered_data.select { |student| student.git.downcase.include?(value.downcase) }
       when :has_mail
@@ -153,5 +153,13 @@ class Student_Search
 
   def count
     @student_getter.get_student_count(@filters)
+  end
+
+  def print_filtered_students(title)
+    puts title
+    @student_list.selected.each do |student|
+      puts student.get_generic_info
+    end
+    puts
   end
 end

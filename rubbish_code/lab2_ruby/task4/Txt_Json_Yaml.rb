@@ -1,5 +1,5 @@
 # import classes from other directories
-require_relative '../ruby_APP/Student_List_Base'
+require_relative '../ruby_APP/y_APP/Student_List_Base'
 
 class Student_List_TXT < Student_List_Base
   # @param [Object] file_path
@@ -8,13 +8,12 @@ class Student_List_TXT < Student_List_Base
     @file_path = file_path
     @file_extension = '.txt'
   end
-
   def load_data
     students = []
     File.open(@file_path, 'r') do |f|
       f.each_line do |line|
         student = line.strip.split(',')
-        students << Student.new(*student)
+        students << Student.new(*student.downcase)
       end
     end
     @students = students
@@ -23,7 +22,7 @@ class Student_List_TXT < Student_List_Base
   def save_data
     File.open(@file_path, 'w') do |f|
       @students.each do |student|
-        f.puts("#{student.id},#{student.surname},#{student.initials},#{student.birth_date}")
+        f.puts("#{student.to_s}")
       end
     end
   end

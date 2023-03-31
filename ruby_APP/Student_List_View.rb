@@ -2,8 +2,8 @@ require 'fox16'
 require 'tk'
 include Fox
 
-require_relative '../ruby_APP/Student'
-require_relative '../ruby_APP/Student_List'
+require_relative '../ruby_APP/ode/lab2_ruby/task1/Student'
+require_relative '../ruby_APP/ode/lab2_ruby/task4/Student_List'
 require_relative '../ruby_APP/Student_Filter_Search'
 
 class Student_List_View < FXMainWindow
@@ -53,21 +53,25 @@ class Student_List_View < FXMainWindow
                                          padLeft: 10, padRight: 10, padTop: 10, padBottom: 10)
 
     # Add buttons for application control
+    # Add a button to show the Add Student dialog box
     add_button = FXButton.new(button_vlayout, "Add Student")
     add_button.connect(SEL_COMMAND) do
-      AddStudentWindow.new
+      dialog = Add_Student_Window.new
+      dialog.display
+      if dialog.event == 1 # OK button was pressed
+        name = dialog.input.text
+        puts "New student added: #{name}"
+      end
     end
 
     update_button = FXButton.new(button_vlayout, "Update Student List")
     edit_button = FXButton.new(button_vlayout, "Edit Student")
-
 
     delete_button = FXButton.new(button_vlayout, "Delete Student")
     delete_button.connect(SEL_COMMAND) do
       student_l.delete_at(@student_list.currentItem)
       refresh_list(student_l)
     end
-
 
     refresh_button = FXButton.new(button_vlayout, "Refresh List")
     refresh_button.connect(SEL_COMMAND) do
@@ -114,34 +118,54 @@ end
 
 require 'tk'
 
-class AddStudentWindow
-  def initialize
-    @root = TkRoot.new { title "Add Student" }
-    @frame = TkFrame.new(@root) { padx 10; pady 10; pack }
-    @label = TkLabel.new(@frame) { text "Enter student name:"; pack }
+class Event_Window
+  def initialize(title_s, text_s)
+    @root = TkRoot.new { title title_s }
+    @frame = TkFrame.new(@root) { padx 15; pady 10; pack }
+    @label = TkLabel.new(@frame) { text "Enter Student"; pack }
     @entry = TkEntry.new(@frame) { pack }
-    @button = TkButton.new(@frame) { text "Add"; command { add_student }; pack }
+    @button = TkButton.new(@frame) { text text_s; command { event }; pack }
     @result_label = TkLabel.new(@frame) { text ""; pack }
-    @entry.bind("Return", proc { add_student })
+    @entry.bind("Return", proc { event })
     @entry.focus
-    Tk.mainloop
   end
 
-  def add_student
-    name = @entry.get.strip
-    if name.empty?
-      @result_label.configure(text: "Please enter a name.")
-    else
-      puts "New student added: #{name}"
-      @result_label.configure(text: "New student added: #{name}")
-      @entry.delete(0, :end)
-      @entry.focus
+  def event
+    begin
+      name = @entry.get.strip
+      if name.empty?
+        @result_label.configure(text: "Please enter a name.")
+        return false
+      else
+        puts "New student added: #{name}"
+        @result_label.configure(text: "New student added: #{name}")
+        @entry.delete(0, :end)
+        @entry.focus
+        @root.destroy
+        return true
+      end
+    rescue => e
+      puts "Error occurred: #{e}"
+      @result_label.configure(text: "An error occurred. Please try again.")
+      return false
     end
+  end
+
+  def close_window
+    @root.destroy
   end
 end
 
+class Add_Student_Window < Event_Window
+  def initialize
+    super("Add Student", "Add")
+    @cancel_button = TkButton.new(@frame) { text "Cancel"; command { close_window }; pack }
+  end
 
-
+  def display
+    Tk.mainloop
+  end
+end
 
 students_l = [
   Student.new(id: '1', surname: 'Aurn', first_name: 'Firstn', patronymic: 'Sufu', phone: '79996340632', telegram: 'ezsx', mail: 'scdcor@gmail.com', git: 'https://github.com/ezsx'),

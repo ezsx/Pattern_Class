@@ -1,4 +1,4 @@
-require_relative '../ruby_APP/Student_List'
+require_relative '../ruby_APP/ode/lab2_ruby/task4/Student_List'
 # TODO: think about deletion this an add into StudentList
 class Student_List_Base < Student_List
   attr_accessor :students, :file_path, :data

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative '../ruby_APP/Student_Filter_Search'
+require_relative '../ruby_APP/y_APP/Student_Filter_Search'
 class Student_List
   attr_accessor :students
 
@@ -28,9 +28,7 @@ class Student_List
     @students.delete_if { |student| student.id == id }
   end
 
-  def student_count
-    @students.size
-  end
+
 
   def get_k_n_student(k, n, sort_field = :id)
     sorted_students = @students.sort_by { |s| s.send(sort_field) }
@@ -57,6 +55,12 @@ class Student_List
       output += "\n"
     end
     output
+  end
+
+  private
+
+  def student_count
+    @students.size
   end
 
 end
