@@ -1,5 +1,5 @@
 require 'pg'
-require_relative '../ruby_APP/DB_config/db_config'
+require_relative '../ruby_APP/DB_config/onfig/db_config'
 require_relative '../ruby_APP/Student_info/student'
 require_relative '../ruby_APP/Student_info/student_list'
 
