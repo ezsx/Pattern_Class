@@ -1,4 +1,4 @@
-require_relative '../Student'
+require_relative '../student'
 require_relative 'validator'
 require_relative '../Contacts/git'
 

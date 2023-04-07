@@ -1,0 +1,48 @@
+@startuml
+left to right direction
+skinparam backgroundColor #1B2631
+skinparam class {
+  BackgroundColor #2E4053
+  BorderColor #1111111
+  ArrowColor #BDC3C7
+  FontColor #BFFFFF
+}
+
+'entity APIManager {
+'    + instance: APIManager
+'    + execute()
+'    + insert()
+'    + delete()
+'    + select_record()
+'    + update()
+'    + select_all()
+'    + count()
+'    + create_table()
+'    + get_list()
+'}
+'
+'entity StudentRepository {
+'    + manager: APIManager
+'    + execute()
+'    + insert()
+'    + delete()
+'    + select_record()
+'    + update()
+'    + select_all()
+'    + count()
+'    + create_table()
+'    + get_list()
+'}
+
+entity Student {
+  + id : int
+  + name : string
+  + middle_name: string
+  + surname: string
+  + git: string
+  + phone: string
+  + email: string
+  + telegram: string
+}
+
+@enduml

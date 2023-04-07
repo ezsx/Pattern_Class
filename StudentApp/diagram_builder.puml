@@ -1,0 +1,210 @@
+@startuml
+
+left to right direction
+skinparam backgroundColor #1B2631
+skinparam class {
+  BackgroundColor #2E4053
+  BorderColor #1111111
+  ArrowColor #BDC3C7
+  FontColor #BFFFFF
+}
+
+class Contact << (C, #FFA500) >> {
+    + value: String
+    + initialize(value)
+    + to_s(): string
+}
+
+class EmailContact << (C, #FFA500) >> extends Contact {
+    + valid?: boolean
+}
+
+class PhoneContact << (C, #FFA500) >> extends Contact {
+    + valid?: boolean
+}
+
+class TelegramContact << (C, #FFA500) >> extends Contact {
+    + valid?: boolean
+}
+
+class Git << (C, #FFA500) >> extends Contact {
+    + valid?: boolean
+    + to_json
+}
+
+class ContactInfo << (C, #FFA500) >> {
+    + phone: PhoneContact
+    + email: EmailContact
+    + telegram: TelegramContact
+    + initialize(**kwargs)
+    + valid?: boolean
+    + to_s: string
+    + to_json: string
+}
+
+class Student << (C, #FFA500) >> {
+    + id: string
+    + name: string
+    + middle_name: string
+    + surname: string
+    + git: Git
+    + contact_info: ContactInfo
+    - validator: StudentValidator
+    + initialize(**kwargs)
+    + name_initials: string
+    + get_generic_info: string
+    + short_form: string
+    + to_s: string
+    + to_json: string
+    + {static} from_string(string): Student
+}
+
+class StudentDisplay << (C, #FFA500) >> {
+    + initials
+    + git
+    + contact
+    + initialize(student)
+    + to_s: string
+    + to_json
+}
+
+interface Validator {
+    + entity
+    + initialize(entity)
+    + validate
+}
+
+class StudentValidator << (C, #FFA500) >>  implements Validator {
+    + validate
+    - valid_name?
+    + valid_git?
+    + valid_contact_info?
+}
+
+interface FileManager implements DataManager {
+    + file_path { get }
+    - file_path { set }
+    + initialize(file_path)
+    + get_display_data(record_count, page)
+    + create(obj)
+    + read(id)
+    + update(index, obj)
+    + delete(index)
+    + count()
+    + read_all()
+}
+
+class StudentFileManager << (C, #FFA500) >>  implements FileManager {
+    + file_path { set }
+    - strategy: FileStrategy
+    + get_display_data(record_count, page)
+    + create(obj)
+    + read(id)
+    + update(index, obj)
+    + delete(index)
+    + count()
+    + read_all()
+    - set_strategy_for(file_path)
+}
+
+interface FileStrategy {
+    - file_path
+    + load_data()
+    + save_data(data)
+}
+
+class JsonFileStrategy << (C, #FFA500) >>  implements FileStrategy {
+    + load_data()
+    + save_data(data)
+}
+
+class TxtFileStrategy << (C, #FFA500) >>  implements FileStrategy {
+    + load_data()
+    + save_data(data)
+}
+
+class YamlFileStrategy << (C, #FFA500) >>  implements FileStrategy {
+    + load_data()
+    + save_data(data)
+}
+
+class DataTable << (C, #FFA500) >>  {
+    - data
+    + initialize(data)
+    + [](row, col)
+    + row_count
+    + column_count
+    + to_s
+}
+
+class DataList << (C, #FFA500) >>  {
+    # data
+    # selected
+    + initialize(data = [])
+    + set_data(new_data)
+    + [](index)
+    + size
+    + each
+    + select(number)
+    + get_selected
+    + reset_selected
+    + get_data: DataTable
+    + get_names: String
+}
+
+class StudentDisplayList << (C, #FFA500) >>  extends DataList {
+    + initialize(data = [])
+    + select(number)
+    + get_data: DataTable
+    + get_names: String
+}
+
+class APIManager << (C, #FFA500) >> {
+    + instance: APIManager
+    - initialize()
+    + execute(query)
+    + insert(table, data)
+    + select_record(table, conditions)
+    + update(table, id, data)
+    + delete(table, id)
+    + select_all(table)
+    + count(table)
+    + create_table(name, values)
+    + get_list(table, record_count, page)
+}
+
+class StudentRepository << (C, #FFA500) >> implements DataManager {
+    {static} name: String
+    - manager: APIManager
+    + initialize(manager)
+    + create(student)
+    + read(id)
+    + update(student)
+    + delete(id)
+    + read_all()
+    + get_display_data(record_count, page)
+    + count()
+    - sql_values
+}
+
+interface DataManager {
+    + create(obj)
+    + read(id)
+    + update(obj)
+    + delete(id)
+    + read_all()
+    + get_display_data(record_count, page)
+    + count()
+}
+
+ContactInfo *-- PhoneContact
+ContactInfo *-- EmailContact
+ContactInfo *-- TelegramContact
+Student *-- ContactInfo
+Student *-- Git
+Student *-- StudentValidator
+StudentFileManager *-- FileStrategy
+StudentDisplay *-- Git
+StudentDisplay *-- ContactInfo
+StudentRepository *-- APIManager
+@enduml

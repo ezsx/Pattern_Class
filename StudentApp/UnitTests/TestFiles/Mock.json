@@ -1,0 +1,14 @@
+[
+  {
+    "id": 0,
+    "name": "Changed Name",
+    "middle_name": "Biden",
+    "surname": "Harvey",
+    "git": "https://github.com/Steve",
+    "contact_info": {
+      "phone": "+1234567890",
+      "email": "Steve@email.ru",
+      "telegram": ""
+    }
+  }
+]

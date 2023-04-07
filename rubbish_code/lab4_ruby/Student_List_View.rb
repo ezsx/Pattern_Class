@@ -4,7 +4,7 @@ include Fox
 
 require_relative '../ruby_APP/ode/lab2_ruby/task1/Student'
 require_relative '../ruby_APP/ode/lab2_ruby/task4/Student_List'
-require_relative '../ruby_APP/Student_Filter_Search'
+require_relative '../ruby_APP/PP/Student_Filter_Search'
 
 class Student_List_View < FXMainWindow
 
